@@ -1,0 +1,34 @@
+{
+    "questions": [
+        {
+            "title": "Why do you think you were banned?",
+            "placeholder": "Please provide a detailed explanation of why you think you were banned. (Minimum 25 characters, Maximum 1000 characters)",
+            "type": "textarea",
+            "min": 25,
+            "max": 1000,
+            "required": true
+        },
+        {
+            "title": "Why do you think you should be unbanned?",
+            "placeholder": "Please provide a detailed explanation of why you think you should be unbanned. (Minimum 25 characters, Maximum 1000 characters)",
+            "type": "textarea",
+            "min": 25,
+            "max": 1000,
+            "required": true
+        },
+        {
+            "title": "Please write a detailed apology.",
+            "placeholder": "Please write a detailed apology for your actions. Please note: Failure to write a detailed apology will result in your appeal being denied. (Minimum 25 characters, Maximum 1000 characters)",
+            "type": "textarea",
+            "min": 25,
+            "max": 1000,
+            "required": true
+        },
+        {
+            "title": "I agree that further bans are non-appealable",
+            "placeholder": "Please select an option.",
+            "type": "switch",
+            "required": true
+        }
+    ]
+}
