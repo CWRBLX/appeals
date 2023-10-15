@@ -20,6 +20,13 @@ export default async (req, res) => {
     message: "Unauthorized" 
   });
 
+  return res.status(200).json({
+    success: true,
+    message: "Found cached appeal",
+    canAppeal: true,
+    banReason: "Fuck you",
+  });
+
   const hasCachedAppeal = await Redis.get(`appeal_${session.user.id}`);
 
   if (hasCachedAppeal) return res.status(200).json({ 

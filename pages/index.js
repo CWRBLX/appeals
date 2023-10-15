@@ -22,6 +22,16 @@ const formatUser = (user) => {
   }
 }
 
+const formatQuestion = (question) => {
+  return {
+    ...question,
+    attributes: [
+      ...(question.min ? [{ name: 'Min', value: question.min }] : []),
+      ...(question.max ? [{ name: 'Max', value: question.max }] : []),
+    ]
+  }
+}
+
 export default function Home({ user, turnstileSiteKey }) {
   const router = useRouter()
   const turnstile = useTurnstile()
@@ -168,29 +178,37 @@ export default function Home({ user, turnstileSiteKey }) {
               </div>
             )}
               <div className="flex flex-col gap-y-4">
-                {config.questions.map((question, i) => (
-                  <div className="sm:col-span-2">
-                    {question.type !== "switch" && (
-                      <label htmlFor={`q${i + 1}`} className="block text-sm font-semibold leading-6 text-gray-200">
-                        {question.title}
-                        {question.required && <span className="text-red-500 ml-1">*</span> || <span className="text-gray-400 ml-1"> (Optional)</span>}
-                      </label>
-                    )}
-                    <div className="mt-2.5">
-                      {question.type === 'textarea' && (
-                        <TextArea answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} />
-                      ) || question.type === 'input' && (
-                        <Input answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} />
-                      ) || question.type === 'switch' && (
-                        <Switch answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} />
-                      ) || question.type === 'select' && (
-                        <Select answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} />
-                      ) || question.type === 'checkbox' && (
-                        <Checkbox answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} />
+                {config.questions.map((question, i) => {
+                  const formatted = formatQuestion(question)
+                  return (
+                    <div className="sm:col-span-2">
+                      {question.type !== "switch" && (
+                        <label htmlFor={`q${i + 1}`} className="block text-sm font-semibold leading-6 text-gray-200">
+                          {question.title}
+                          {question.required && <span className="text-red-500 ml-1">*</span> || <span className="text-gray-400 ml-1"> (Optional)</span>}
+                        </label>
                       )}
+                      <div className="mt-2.5">
+                        {question.type === 'textarea' && (
+                          <TextArea answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} questions={config.questions} />
+                        ) || question.type === 'input' && (
+                          <Input answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} questions={config.questions} />
+                        ) || question.type === 'switch' && (
+                          <Switch answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} questions={config.questions} />
+                        ) || question.type === 'select' && (
+                          <Select answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} questions={config.questions} />
+                        ) || question.type === 'checkbox' && (
+                          <Checkbox answers={answers} setAnswers={setAnswers} i={i} state={state} question={question} questions={config.questions} />
+                        )}
+                        <div className="flex justify-center space-x-1 mt-1">
+                          {formatted.attributes.map((r, i) => (
+                            <p className="text-xs text-gray-400" key={i}>{r.name}: {r.value}{i !== formatted.attributes.length - 1 && ' • '}</p>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
                 <Turnstile
                   sitekey={turnstileSiteKey}
                   onVerify={(token) => {
